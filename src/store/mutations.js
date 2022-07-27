@@ -13,3 +13,7 @@ export const SET_UPDATED_PRODUCT = (state, product) => {
 export const SET_CREATED_PRODUCT = (state, product) => {
   state.createdProduct = product;
 };
+
+export const SET_DELETED_PRODUCT = (state, product) => {
+  state.deletedProduct = product;
+};

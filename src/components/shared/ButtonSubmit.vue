@@ -5,6 +5,7 @@
         Clear
       </v-btn>
       <v-btn
+        :loading="isSubmiting"
         class="mx-1"
         depressed
         color="primary"
@@ -19,7 +20,7 @@
 
 <script>
 export default {
-  props: ["valid"],
+  props: ["valid", "isSubmiting"],
   methods: {
     handleSubmit() {
       this.$emit("handle-click-submit");

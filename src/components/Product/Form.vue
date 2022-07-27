@@ -31,7 +31,11 @@
       label="Image"
     ></v-file-input>
 
-    <button-submit :valid="valid" @handle-click-submit="handleSubmit" />
+    <button-submit
+      :isSubmiting="isSubmiting"
+      :valid="valid"
+      @handle-click-submit="handleSubmit"
+    />
   </v-form>
 </template>
 
@@ -42,7 +46,7 @@ import ButtonSubmit from "../shared/ButtonSubmit.vue";
 import { getBase64 } from "../../helper/helperFunction";
 
 export default {
-  props: ["product"],
+  props: ["product", "isSubmiting"],
   data: () => ({
     valid: true,
     image: null,

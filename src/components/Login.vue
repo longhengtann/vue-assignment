@@ -27,6 +27,9 @@
                   v-model="password"
                 />
               </v-form>
+              <p v-if="failAuth" class="red--text">
+                Incorrect username or password
+              </p>
             </v-card-text>
             <v-divider />
             <v-card-actions>
@@ -52,13 +55,22 @@ export default {
   data: () => ({
     usernmae: "",
     password: "",
-    isLogin: false
+    auth: { usernmae: "admin", password: "Pa$$w0rd" },
+    failAuth: false
   }),
   methods: {
     handleLogin() {
-      this.isLogin = true;
-      this.$emit("handleLogin", this.isLogin);
-      this.$router.push("/products");
+      if (
+        this.usernmae === this.auth.usernmae &&
+        this.password === this.auth.password
+      ) {
+        localStorage.setItem("isAuth", true);
+
+        this.$emit("handleLogin", true);
+        this.$router.push("/products");
+      } else {
+        this.failAuth = true;
+      }
     }
   }
 };

@@ -35,7 +35,7 @@
 
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block>
+          <v-btn block @click="handleLogout">
             Logout
           </v-btn>
         </div>
@@ -45,8 +45,21 @@
 </template>
 
 <script>
+import { clearLocalStorage } from "../helper/localStorage";
+
 export default {
   props: ["drawer"],
-  data: () => ({})
+  data: () => ({}),
+  methods: {
+    handleLogout() {
+      let response = confirm("Are you sure you want to Logout?");
+
+      if (response) {
+        clearLocalStorage();
+        this.$router.push("/");
+        location.reload();
+      }
+    }
+  }
 };
 </script>

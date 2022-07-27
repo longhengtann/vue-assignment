@@ -1,37 +1,124 @@
 <template>
-  <v-col class="mb-4" cols="3">
-    <v-hover v-slot="{ hover }">
-      <v-card :elevation="hover ? 5 : 2">
-        <v-img
-          :src="product.image"
-          class="white--text align-end"
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-          height="200px"
-        >
-          <v-card-title>{{ product.name }}</v-card-title>
-          <v-card-subtitle>
-            {{ product.description }}
-          </v-card-subtitle>
-        </v-img>
-
-        <v-card-actions>
-          <v-btn text>
-            <router-link :to="{ name: 'product', params: { id: product.id } }"
-              >Edit</router-link
+  <div>
+    <v-row dense>
+      <v-col
+        v-for="product in products"
+        :key="product.id"
+        class="mb-4"
+        cols="3"
+      >
+        <v-hover v-slot="{ hover }">
+          <v-card :elevation="hover ? 5 : 2">
+            <v-img
+              :src="product.image"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
             >
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn text color="teal accent-4">
-            Detail
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-hover>
-  </v-col>
+              <v-card-title>
+                <div :class="productColor(product.quantity)">
+                  {{ product.name }}
+                </div></v-card-title
+              >
+
+              <v-card-subtitle>
+                <div :class="`${productColor(product.quantity)} `">
+                  <span>Quantity: {{ product.quantity }}</span> -
+                  <span>Price: ${{ product.price }}</span>
+                </div>
+              </v-card-subtitle>
+
+              <v-fade-transition>
+                <v-overlay
+                  v-if="product.quantity == 0"
+                  absolute
+                  color="#000000"
+                  opacity="0.6"
+                >
+                  <v-btn color="red">Out of Stock</v-btn>
+                </v-overlay>
+              </v-fade-transition>
+            </v-img>
+
+            <v-card-text class="text--primary body-2 pl-2">
+              <div class="headerClass">{{ product.description }}</div>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-btn>
+                <router-link
+                  :to="{ name: 'product', params: { id: product.id } }"
+                  >Edit</router-link
+                >
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="teal accent-4"
+                @click="handleViewProductDetail(product)"
+              >
+                Detail
+              </v-btn>
+              <v-btn
+                color="error accent-4"
+                @click="handleDeleteProduct(product.id)"
+              >
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+
+    <product-view-detail-modal
+      :dailog="dailog"
+      @handle-close-view-product-detail-modal="dailog = false"
+      :product="selectedProduct"
+    />
+  </div>
 </template>
 
 <script>
+import ProductViewDetailModal from "./ProductViewDetailModal.vue";
+
 export default {
-  props: ["product"]
+  props: ["products"],
+  components: {
+    "product-view-detail-modal": ProductViewDetailModal
+  },
+  data: () => ({
+    dailog: false,
+    selectedProduct: null
+  }),
+  methods: {
+    async handleDeleteProduct(id) {
+      let response = confirm("Are you sure you want to delete?");
+
+      if (response) {
+        await this.$store.dispatch("deleteProduct", id);
+        await this.$store.dispatch("getProducts", "");
+      }
+    },
+    handleViewProductDetail(product) {
+      this.dailog = !this.dailog;
+      this.selectedProduct = product;
+    },
+    productColor(qty) {
+      if (qty > 0 && qty < 10) {
+        return "warning--text";
+      } else {
+        return "";
+      }
+    }
+  }
 };
 </script>
+
+<style>
+.headerClass {
+  white-space: nowrap;
+  word-break: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

@@ -28,23 +28,14 @@
                 </div>
               </v-card-subtitle>
 
-              <!-- Overlay out of stock -->
-              <v-fade-transition>
-                <v-overlay
-                  v-if="product.quantity == 0"
-                  absolute
-                  color="#000000"
-                  opacity="0.6"
-                >
-                  <v-btn small color="red">Out of Stock</v-btn>
-                </v-overlay>
-              </v-fade-transition>
+              <stock-out-overlay v-if="product.quantity == 0" />
             </v-img>
 
             <v-card-text class="text--primary body-2 pl-2">
               <div class="headerClass">{{ product.description }}</div>
             </v-card-text>
 
+            <!-- Button action -->
             <v-card-actions class="d-flex justify-space-between flex-wrap">
               <v-btn
                 class="mx-1 my-1"
@@ -96,12 +87,14 @@
 <script>
 import ProductViewDetailModal from "./ProductViewDetailModal.vue";
 import ConfirmDeleteModal from "./ConfirmDeleteProduct.vue";
+import StockOutOverlay from "./StockOutOverlay.vue";
 
 export default {
   props: ["products"],
   components: {
     "product-view-detail-modal": ProductViewDetailModal,
-    "confirm-delete-modal": ConfirmDeleteModal
+    "confirm-delete-modal": ConfirmDeleteModal,
+    "stock-out-overlay": StockOutOverlay
   },
   data: () => ({
     isVisibleConfirmDeleteModal: false,

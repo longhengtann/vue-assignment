@@ -4,7 +4,7 @@
       <v-card>
         <v-toolbar color="primary" dark>Product Detail</v-toolbar>
 
-        <v-card-text>
+        <v-card-text v-if="product">
           <div class="mt-4">
             <p>Name: {{ product.name }}</p>
             <p>Price: ${{ product.price }}</p>

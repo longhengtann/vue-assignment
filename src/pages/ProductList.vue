@@ -1,27 +1,9 @@
 <template>
   <div class="px-4 py-2">
-    <v-row justify="space-between">
-      <v-col md="6" cols="12">
-        <h1>Product List</h1>
-      </v-col>
-
-      <v-col md="6" cols="12">
-        <div class="d-flex align-center">
-          <v-text-field
-            v-model="searchValue"
-            outlined
-            dense
-            hide-details
-            placeholder="search"
-            prepend-inner-icon="mdi-magnify"
-            class="mt-2"
-            @change="getProductList"
-          ></v-text-field>
-        </div>
-      </v-col>
-    </v-row>
-
-    <v-divider class="my-4"></v-divider>
+    <header-title-with-search
+      title="Product List"
+      @handle-change-search-value="getProductList($event)"
+    />
 
     <div class="mb-4 d-flex justify-end">
       <v-btn
@@ -33,49 +15,36 @@
       </v-btn>
     </div>
 
-    <v-overlay :value="isLoading">
-      <div class="d-flex justify-center my-4">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
-      </div>
-    </v-overlay>
-
+    <overlay-loading :isLoading="isLoading" />
     <product-card :products="products" />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import HeaderTitleWithSearch from "../components/shared/HeaderTitleWithSearch.vue";
 import ProductCard from "../components/Product/ProductCard.vue";
+import OverlayLoading from "../components/shared/OverlayLoading.vue";
 
 export default {
   data: () => ({
-    searchValue: "",
     isLoading: false
   }),
   components: {
-    "product-card": ProductCard
+    "product-card": ProductCard,
+    "overlay-loading": OverlayLoading,
+    "header-title-with-search": HeaderTitleWithSearch
   },
   computed: {
     ...mapState(["products"])
   },
   mounted() {
-    this.getProductList();
+    this.getProductList("");
   },
   methods: {
-    filteredProduct() {
-      return products.filter(product =>
-        product.name.toLowerCase().includes(this.searchValue.toLowerCase())
-      );
-    },
-    async getProductList() {
+    async getProductList(searchValue) {
       this.isLoading = true;
-      const response = await this.$store.dispatch(
-        "getProducts",
-        this.searchValue
-      );
+      await this.$store.dispatch("getProducts", searchValue);
       this.isLoading = false;
     }
   }

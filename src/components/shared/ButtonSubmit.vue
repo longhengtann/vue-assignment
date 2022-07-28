@@ -1,8 +1,8 @@
 <template>
   <div class="px-4 py-2 button-container">
     <div class="d-flex justify-end">
-      <v-btn class="mx-1" depressed>
-        Clear
+      <v-btn class="mx-1" depressed @click="$router.back()">
+        Back
       </v-btn>
       <v-btn
         :loading="isSubmiting"

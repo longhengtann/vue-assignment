@@ -18,7 +18,7 @@
                   outlined
                   label="Username"
                   type="text"
-                  v-model="usernmae"
+                  v-model="username"
                 />
                 <v-text-field
                   outlined
@@ -51,20 +51,22 @@
 </template>
 
 <script>
+import { AUTH, IS_AUTH_KEY } from "../constant";
+
 export default {
   data: () => ({
-    usernmae: "",
+    username: "",
     password: "",
-    auth: { usernmae: "admin", password: "Pa$$w0rd" },
+    auth: AUTH,
     failAuth: false
   }),
   methods: {
     handleLogin() {
       if (
-        this.usernmae === this.auth.usernmae &&
+        this.username === this.auth.username &&
         this.password === this.auth.password
       ) {
-        localStorage.setItem("isAuth", true);
+        localStorage.setItem(IS_AUTH_KEY, true);
 
         this.$emit("handleLogin", true);
         this.$router.push("/products");

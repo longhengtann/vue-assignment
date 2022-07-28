@@ -1,15 +1,8 @@
 <template>
   <div class="px-4 py-2">
-    <h1>Edit Product</h1>
+    <header-title title="Edit Product" />
 
-    <v-overlay :value="isLoading">
-      <div class="d-flex justify-center my-4">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
-      </div>
-    </v-overlay>
+    <overlay-loading :isLoading="isLoading" />
 
     <product-form
       :product="product"
@@ -20,7 +13,9 @@
 </template>
 
 <script>
+import HeaderTitle from "../components/shared/HeaderTitle.vue";
 import Form from "../components/Product/Form.vue";
+import OverlayLoading from "../components/shared/OverlayLoading.vue";
 
 export default {
   data: () => ({
@@ -28,7 +23,9 @@ export default {
     isSubmiting: false
   }),
   components: {
-    "product-form": Form
+    "header-title": HeaderTitle,
+    "product-form": Form,
+    "overlay-loading": OverlayLoading
   },
   computed: {
     product() {
@@ -47,7 +44,7 @@ export default {
       });
 
       this.isSubmiting = false;
-      this.$router.push("/");
+      this.$router.push("/products");
     },
     async getProductDetail() {
       this.isLoading = true;

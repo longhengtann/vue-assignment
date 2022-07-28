@@ -24,7 +24,7 @@ export const updateProduct = async ({ commit }, productData) => {
 };
 
 export const createProduct = async ({ commit }, productData) => {
-  const response = api().post("/products", productData);
+  const response = await api().post("/products", productData);
 
   commit("SET_CREATED_PRODUCT", response.data);
 };

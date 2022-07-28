@@ -24,13 +24,10 @@
       :rules="[required()]"
       label="Quantity"
     />
-    <v-file-input
-      show-size
-      v-model="image"
-      @change="handleUploadImageChange(image)"
-      label="Image"
-    ></v-file-input>
-
+    <file-upload
+      :defaultUrl="product.image"
+      @handle-get-image-url="imageUrl = $event"
+    />
     <button-submit
       :isSubmiting="isSubmiting"
       :valid="valid"
@@ -43,27 +40,23 @@
 import TextFieldInput from "../shared/TextFieldInput.vue";
 import FileUpload from "../shared/FileUpload.vue";
 import ButtonSubmit from "../shared/ButtonSubmit.vue";
-import { getBase64 } from "../../helper/helperFunction";
 
 export default {
   props: ["product", "isSubmiting"],
   data: () => ({
     valid: true,
-    image: null,
     imageUrl: "",
     required() {
       return v => (v && v.length > 0) || "Required!";
     }
   }),
   components: {
+    "file-upload": FileUpload,
     "text-field-input": TextFieldInput,
     "file-upload": FileUpload,
     "button-submit": ButtonSubmit
   },
   methods: {
-    handleUploadImageChange(img) {
-      getBase64(img, imageUrl => (this.imageUrl = imageUrl));
-    },
     handleSubmit() {
       const productData = {
         name: this.product.name,

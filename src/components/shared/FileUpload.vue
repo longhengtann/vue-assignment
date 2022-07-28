@@ -1,21 +1,36 @@
 <template>
   <div>
     <v-file-input
-      :rules="isRequired === 'true' ? [required()] : []"
-      accept="image/png, image/jpeg, image/bmp"
-      prepend-icon="mdi-file"
-      :label="label"
+      show-size
+      v-model="image"
+      @change="handleUploadImageChange(image)"
+      label="Image"
     ></v-file-input>
+    <v-img
+      :src="imageUrl || defaultUrl"
+      class="white--text align-end"
+      height="200px"
+      width="200px"
+    />
   </div>
 </template>
 
 <script>
+import { getBase64 } from "../../helper/helperFunction";
+
 export default {
-  props: ["name", "label", "isRequired"],
+  props: ["defaultUrl"],
   data: () => ({
-    required() {
-      return v => (v && v.length > 0) || "Required!";
+    image: "",
+    imageUrl: ""
+  }),
+  methods: {
+    handleUploadImageChange(img) {
+      getBase64(img, imageUrl => {
+        this.imageUrl = imageUrl;
+        this.$emit("handle-get-image-url", imageUrl);
+      });
     }
-  })
+  }
 };
 </script>

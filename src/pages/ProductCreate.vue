@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 py-2">
-    <h1 class="text-lg">Create New Product</h1>
+    <header-title title="Create New Product" />
 
     <product-form
       :product="product"
@@ -12,10 +12,12 @@
 
 <script>
 import Form from "../components/Product/Form.vue";
+import HeaderTitle from "../components/shared/HeaderTitle.vue";
 
 export default {
   components: {
-    "product-form": Form
+    "product-form": Form,
+    "header-title": HeaderTitle
   },
   data: () => ({
     product: {},
@@ -27,7 +29,7 @@ export default {
       await this.$store.dispatch("createProduct", data);
 
       this.isSubmiting = false;
-      this.$router.push("/");
+      this.$router.push("/products");
     }
   }
 };

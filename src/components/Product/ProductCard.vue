@@ -16,13 +16,13 @@
               height="200px"
             >
               <v-card-title>
-                <div :class="productColor(product.quantity)">
+                <div :class="`${productColor(product.quantity)} headerClass`">
                   {{ product.name }}
                 </div></v-card-title
               >
 
               <v-card-subtitle>
-                <div :class="`${productColor(product.quantity)} `">
+                <div :class="`${productColor(product.quantity)}`">
                   <span>Quantity: {{ product.quantity }}</span> -
                   <span>Price: ${{ product.price }}</span>
                 </div>
@@ -36,7 +36,7 @@
                   color="#000000"
                   opacity="0.6"
                 >
-                  <v-btn color="red">Out of Stock</v-btn>
+                  <v-btn small color="red">Out of Stock</v-btn>
                 </v-overlay>
               </v-fade-transition>
             </v-img>
@@ -45,23 +45,33 @@
               <div class="headerClass">{{ product.description }}</div>
             </v-card-text>
 
-            <v-card-actions>
+            <v-card-actions class="d-flex justify-space-between flex-wrap">
               <v-btn
+                class="mx-1 my-1"
                 :to="{ name: 'product', params: { id: product.id } }"
                 color="primary"
+                small
               >
                 Edit
               </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn color="teal" @click="handleViewProductDetail(product)">
-                Detail
-              </v-btn>
-              <v-btn
-                color="error"
-                @click="handleVisibleConfirmModal(product.id)"
-              >
-                Delete
-              </v-btn>
+              <div class="d-flex justify-space-between flex-wrap">
+                <v-btn
+                  class="mx-1 my-1"
+                  color="teal"
+                  small
+                  @click="handleViewProductDetail(product)"
+                >
+                  Detail
+                </v-btn>
+                <v-btn
+                  class="mx-1 my-1"
+                  small
+                  color="error"
+                  @click="handleVisibleConfirmModal(product.id)"
+                >
+                  Delete
+                </v-btn>
+              </div>
             </v-card-actions>
           </v-card>
         </v-hover>

@@ -1,12 +1,14 @@
 <template>
-  <confirm-modal
-    :dailog="dailog"
-    :isSubmitting="isSubmitting"
-    @handle-close-dailog="handleCloseDailog"
-    @handle-confirm="handleConfirmDelete"
-    title="Are you sure you want to delete this product?"
-    description="Click button confirm to delete."
-  />
+  <div>
+    <confirm-modal
+      :dailog="dailog"
+      :isSubmitting="isSubmitting"
+      @handle-close-dailog="handleCloseDailog"
+      @handle-confirm="handleConfirmDelete"
+      title="Are you sure you want to delete this product?"
+      description="Click button confirm to delete."
+    />
+  </div>
 </template>
 
 <script>
@@ -24,9 +26,10 @@ export default {
     async handleConfirmDelete() {
       this.isSubmitting = true;
       await this.$store.dispatch("deleteProduct", this.selectedProductId);
-      await this.$store.dispatch("getProducts", "");
       this.isSubmitting = false;
       this.handleCloseDailog();
+
+      await this.$store.dispatch("getProducts", "");
     },
     handleCloseDailog() {
       this.$emit("handle-close-modal");

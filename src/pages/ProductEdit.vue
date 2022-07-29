@@ -44,7 +44,6 @@ export default {
       });
 
       this.isSubmiting = false;
-      this.$router.push("/products");
     },
     async getProductDetail() {
       this.isLoading = true;

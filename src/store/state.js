@@ -3,5 +3,6 @@ export default {
   product: null,
   updatedProduct: {},
   createdProduct: null,
-  deletedProduct: null
+  deletedProduct: null,
+  notifications: []
 };

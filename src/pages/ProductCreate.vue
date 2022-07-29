@@ -29,7 +29,6 @@ export default {
       await this.$store.dispatch("createProduct", data);
 
       this.isSubmiting = false;
-      this.$router.push("/products");
     }
   }
 };

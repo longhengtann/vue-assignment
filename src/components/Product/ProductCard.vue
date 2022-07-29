@@ -108,7 +108,7 @@ export default {
       this.isVisibleConfirmDeleteModal = true;
     },
     handleViewProductDetail(product) {
-      this.dailog = !this.dailog;
+      this.isVisibleProductDetailModal = !this.isVisibleProductDetailModal;
       this.selectedProduct = product;
     },
     productColor(qty) {

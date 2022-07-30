@@ -1,5 +1,5 @@
 import { api } from "../services/api";
-import { router } from "../main.js";
+import router from "../routes";
 
 export const getProducts = async ({ commit }, searchValue) => {
   const response = await api().get(
